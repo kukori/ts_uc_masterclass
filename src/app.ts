@@ -74,24 +74,82 @@ element?.addEventListener('click', handleClick, false);
 // console.log(newPerson)
 
 // PARTIAL MAPPED TYPES:
-interface Person {
-    name: string,
-    age: number
-};
+// interface Person {
+//     name: string,
+//     age: number
+// };
 
-type PartialType<T> = {
-    [P in keyof T]?: T[P]
-}
+// type PartialType<T> = {
+//     [P in keyof T]?: T[P]
+// }
 
-function updatePerson(person: Person, prop: PartialType<Person>) {
-    return { ...person, ...prop };
-}
+// function updatePerson(person: Person, prop: PartialType<Person>) {
+//     return { ...person, ...prop };
+// }
 
-const person: Person = {
-    name: 'Ati',
-    age: 33
-};
+// const person: Person = {
+//     name: 'Ati',
+//     age: 33
+// };
 
-const p2 = updatePerson(person, {age: 34});
+// const p2 = updatePerson(person, {age: 34});
 
-console.log(p2);
+// console.log(p2);
+
+// REQUIRED MAPPED TYPES:
+// interface Person {
+//     name: string,
+//     age?: number
+// };
+
+// // type RequiredType<T> = {
+// //     [P in keyof T]-?: T[P]
+// //     // we are removing the ? mark meaning it won't be optional
+// // }
+
+// const person: Required<Person> = {
+//     name: 'Ati',
+//     age: 33
+// };
+
+// function printage(person: Required<Person>) {
+//     return `${person.name} is ${person.age} years old`;
+// }
+
+
+// console.log(printage(person));
+
+
+// PICK MAPPED TYPES:
+// interface Person {
+//     name: string,
+//     age: number,
+//     address: {}
+// };
+
+// type PickType<T, K extends keyof T> = {
+//     [P in K]: T[P]
+// }
+
+// const person: Pick<Person, 'name' | 'age'> = {
+//     name: 'Ati',
+//     age: 33
+// };
+
+
+// RECORD MAPPED TYPE:
+// let dictionary: { [key: string]: any } = {}
+// let dictionary: Record<string, TrackStates> = {}
+
+// interface TrackStates {
+//     current: string,
+//     next: string
+// }
+
+// const item: Record<keyof TrackStates, string> = {
+//     current: 'dffdasfasdfw3reqerq',
+//     next: 'sidyfiausdyfaiuysf'
+// };
+
+// // numbers are coerced to string
+// dictionary[0] = item;
