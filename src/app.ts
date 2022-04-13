@@ -153,3 +153,69 @@ element?.addEventListener('click', handleClick, false);
 
 // // numbers are coerced to string
 // dictionary[0] = item;
+
+
+// TYPEOF TYPE GUARD:
+
+function foo(bar: string | number) {
+    if (typeof bar === 'string') {
+        return bar.toUpperCase();
+    }
+    return bar.toFixed(2)
+}
+
+class Song {
+    constructor(public title: string, public duration: string | number) {}
+}
+
+function getSongDuration(item: Song) {
+    if(typeof item.duration === 'string') {
+        return item.duration;
+    }
+    const { duration } = item;
+    const minutes = Math.floor(duration / 60000);
+    const seconds = (duration / 1000) % 60;
+    return `${minutes}:${seconds}`;
+}
+
+const songDurationFromString = getSongDuration(
+    new Song('Wonderful life', '05:31')
+)
+// console.log(songDurationFromString);
+
+const songDurationFromMs = getSongDuration(
+    new Song('Wonderful life', 330000)
+)
+// console.log(songDurationFromMs);
+
+
+
+// INSTANCEOF TYPEGUARD:
+class Foo {
+    bar() {}
+}
+
+const bar = new Foo();
+// console.log(bar instanceof Foo);
+// console.log(Object.getPrototypeOf(bar) === Foo.prototype);
+
+class Song2 {
+    constructor(public title: string, public duration: number) {}
+}
+
+class Playlist {
+    constructor(public name: string, public songs: Song2[]) {}
+}
+
+function getItemName(item: Song2 | Playlist) {
+    if (item instanceof Song2) {
+        return item.title;
+    }
+    return item.name;
+}
+
+const songName = getItemName(new Song2('Wonderful life', 330000));
+// console.log('Song name:', songName);
+
+const playlistName = getItemName(new Playlist('chillout', [new Song2('Wonderful life', 330000)]));
+// console.log('Playlist name:', playlistName);
