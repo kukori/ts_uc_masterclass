@@ -219,3 +219,98 @@ const songName = getItemName(new Song2('Wonderful life', 330000));
 
 const playlistName = getItemName(new Playlist('chillout', [new Song2('Wonderful life', 330000)]));
 // console.log('Playlist name:', playlistName);
+
+
+
+// INTERSECTION TYPES:
+interface Order {
+    id: string;
+    amount: number;
+    currency: string;
+}
+
+interface Stripe {
+    type: 'stripe';
+    card: string;
+    cvc: string;
+}
+
+interface Paypal {
+    type: 'paypal';
+    email: string;
+}
+
+type CheckoutCard = Order & Stripe;
+type CheckoutPaypal = Order & Paypal;
+type CheckoutAbc = Order & { name: string };
+
+const order: Order = {
+    id: 'sdjluwehdsa',
+    amount: 100,
+    currency: 'USD'
+}
+
+const orderCard: CheckoutCard = {
+    type: 'stripe',
+    card: '1000 2000 3000 4000',
+    cvc: '123',
+    ...order
+}
+
+const orderPaypal: CheckoutPaypal = {
+    type: 'paypal',
+    email: 'attila@test.com',
+    ...order
+}
+
+// DISCRIMINATED (TAGGED) UNIONS:
+type Payload = CheckoutCard | CheckoutPaypal;
+
+function checkout(payload: Payload) {
+    if(payload.type === "stripe") {
+        console.log(payload.card, payload.cvc)
+    }
+    if(payload.type === "paypal") {
+        console.log(payload.email)
+    }
+}
+
+// INTERFACES VS TYPE ALIASES:
+interface Item {
+    name: string;
+}
+
+interface Artist extends Item {
+    songs: number;
+}
+
+interface Artist {
+    getSongs(): number;
+}
+
+type Artist2 = {
+    name: string;
+} & Item;
+
+const newArtist: Artist = {
+    name: 'abc',
+    songs: 5,
+    getSongs() {
+        return this.songs;
+    }
+}
+
+// INTERFACES VS CLASSES:
+// interface Artist3 {
+//     name: string
+// }
+
+class ArtistCreator /*implements Artist3*/ {
+    constructor(public name: string) {}
+}
+
+function artistFactory({ name }: ArtistCreator) {
+    return new ArtistCreator(name);
+}
+
+artistFactory({ name: 'Ati' })
