@@ -314,3 +314,43 @@ function artistFactory({ name }: ArtistCreator) {
 }
 
 artistFactory({ name: 'Ati' })
+
+
+// FUNCTION GENERICS:
+class Pizza {
+    constructor(private name: string, private price: number) {}
+}
+
+class List<T> {
+    private list: T[] = [];
+
+    addItem(item: T): void {
+        this.list.push(item);
+    }
+
+    getList(): T[] {
+        return this.list;
+    }
+}
+
+const list = new List<Pizza>();
+list.addItem(new Pizza('Pepperoni', 14));
+
+const pizzas = list.getList();
+
+
+// FUNCTION OVERLOADS:
+// these are only for typehinting
+function reverse(param: string): string;
+function reverse<T>(param: T[]): T[];
+
+function reverse<T>(param: string | T[]): string | T[] {
+    if(typeof param === 'string') {
+        return param.split('').reverse().join();
+    }
+    // we are making a copy with slice
+    return param.slice().reverse();
+}
+
+reverse('Pepperoni');
+reverse<string>(['bacon', 'pepperoni', 'chili', 'mushrooms']);
