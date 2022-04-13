@@ -354,3 +354,31 @@ function reverse<T>(param: string | T[]): string | T[] {
 
 reverse('Pepperoni');
 reverse<string>(['bacon', 'pepperoni', 'chili', 'mushrooms']);
+
+// ENUMS:
+enum Sizes {
+    Small,
+    Medium,
+    Large
+}
+
+console.log(Sizes.Large, Sizes[Sizes.Large])
+
+
+// STRING ENUMS:
+enum Statuses {
+    'Loading' = 'loading',
+    'Success' = 'success',
+    'Error' = 'error',
+}
+
+// console.log(Statuses.Success)
+
+let selected: Statuses = Statuses.Loading;
+
+function updateStatus(status: Statuses): void {
+    selected = status;
+}
+
+updateStatus(Statuses.Error);
+console.log(selected);
